@@ -1,7 +1,6 @@
 /**UC2 Setting event listener on salary range for appropriate value
  * validation of date and name
  */
-
 window.addEventListener('DOMContentLoaded', (event) => {
 
     /*event listener for name
@@ -34,12 +33,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 });
 
-/**Creating employee payroll object 
+/** UC3 Creating employee payroll object 
  * It will save data on hitting submit button
  */
 const save = () => {
     try {
         let employeePayrollData = createEmployeePayroll();
+        createAndUpdateStorage(employeePayrollData)
+
     } catch(e) {
         return;
     }
@@ -83,4 +84,18 @@ const getInputValueById = (id) => {
 const getInputElementValue = (id) => {
     let value = document.getElementById(id).value;
     return value;
+}
+
+/**UC4 Saving employee payroll to local storage */
+
+function createAndUpdateStorage(employeePayrollData){
+    let employeePayrollList = JSON.parse(localStorage.getItem("EmployeePayrollList"));
+
+    if(employeePayrollList != undefined) {
+        employeePayrollList.push(employeePayrollData);
+    } else {
+        employeePayrollList = [employeePayrollData]
+    }
+    alert(employeePayrollList.toString());
+    localStorage.setItem("EmployeePayrollList", JSON.stringify(employeePayrollList))
 }
