@@ -1,3 +1,7 @@
+/**UC2 Setting event listener on salary range for appropriate value
+ * validation of date and name
+ */
+
 window.addEventListener('DOMContentLoaded', (event) => {
 
     /*event listener for name
@@ -29,3 +33,54 @@ window.addEventListener('DOMContentLoaded', (event) => {
     });
 
 });
+
+/**Creating employee payroll object 
+ * It will save data on hitting submit button
+ */
+const save = () => {
+    try {
+        let employeePayrollData = createEmployeePayroll();
+    } catch(e) {
+        return;
+    }
+}
+
+const createEmployeePayroll = () => {
+    let employeePayrollData = new EmployeePayrollData();
+    try {
+        employeePayrollData.name = getInputValueById('#name');
+    } catch(e) {
+        setTextValue('.text-error',e);
+        throw e;
+    }
+    employeePayrollData.profilePic = getSelectedValues('[name=profile]').pop();
+    employeePayrollData.gender = getSelectedValues('[name=gender]').pop();
+    employeePayrollData.department = getSelectedValues('[name=department]');
+    employeePayrollData.salary = getSelectedValues('#salary');
+    employeePayrollData.note = getSelectedValues('#notes');
+    let date = getInputValueById('#day')+" "+getInputValueById('#month')+" "+getInputValueById('#year');
+    employeePayrollData.date = Date.parse(date);
+    alert(employeePayrollData.toString());
+    return employeePayrollData;
+}
+
+/**getting selected values by query selector */
+const getSelectedValues = (propertyValue) => {
+    let allItems = document.querySelectorAll(propertyValue);
+    let selItems = [];
+    allItems.forEach(item => {
+        if(item.checked) selItems.push(item.value);
+    });
+    return selItems;
+}
+
+/**getting input values by id using query selector */
+const getInputValueById = (id) => {
+    let value = document.querySelector(id).value;
+    return value;
+}
+
+const getInputElementValue = (id) => {
+    let value = document.getElementById(id).value;
+    return value;
+}
